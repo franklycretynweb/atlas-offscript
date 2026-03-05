@@ -170,79 +170,129 @@ function WebhookMockup() {
   );
 }
 
+const bentoCards = [
+  {
+    visual: <CodeBackground />,
+    title: "Odpowiedzialne scrapowanie",
+    desc: "Atlas domyślnie sprawdza robots.txt, automatycznie ogranicza liczbę zapytań i daje pełną kontrolę zgodności per domena.",
+  },
+  {
+    visual: <TaskListMockup />,
+    title: "Pipeline w jednym przepływie",
+    desc: "Scrapuj, deduplikuj, wzbogacaj i wysyłaj do pipeline w jednym zautomatyzowanym przepływie. Bez przełączania zakładek.",
+  },
+  {
+    visual: <IntegrationHub />,
+    title: "Wybierz swój stack",
+    desc: "Połącz z HubSpot, Salesforce, Sheets, Notion lub wysyłaj webhooki. Atlas wpasowuje się w narzędzia, których już używasz.",
+  },
+  {
+    visual: <UrlInputMockup />,
+    title: "Scrapuj prostym URL-em",
+    desc: "Wklej dowolną publiczną stronę. Atlas automatycznie wykryje strukturę, wyciągnie kontakty, firmy i własne pola — bez pisania kodu.",
+  },
+  {
+    visual: <WebhookMockup />,
+    title: "Webhooki w czasie rzeczywistym",
+    desc: "Wysyłaj zdarzenia przy zmianach etapów, nowych leadach lub ukończonych scrapach. Przekazuj dane tam, gdzie potrzebuje ich Twój stack.",
+  },
+];
+
 export function FeaturesBento() {
   return (
     <section className="border-b border-stone-800/40 bg-stone-950">
-      <div className="mx-auto max-w-7xl px-6 py-24 lg:py-32">
-        {/* Top row — 3 equal columns */}
-        <div className="grid gap-4 md:grid-cols-3">
-          <FeatureCard>
-            <CodeBackground />
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-stone-100">
-                Odpowiedzialne scrapowanie
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-stone-400">
-                Atlas domyślnie sprawdza robots.txt, automatycznie ogranicza
-                liczbę zapytań i daje pełną kontrolę zgodności per domena.
-              </p>
+      <div className="py-24 lg:py-32">
+        {/* Mobile: horizontal scroll */}
+        <div className="md:hidden">
+          <div className="relative">
+            <div className="flex gap-4 overflow-x-auto px-6 pb-4 snap-x snap-mandatory scrollbar-none">
+              {bentoCards.map((card) => (
+                <FeatureCard key={card.title} className="min-w-[280px] shrink-0 snap-start">
+                  {card.visual}
+                  <div className="p-5">
+                    <h3 className="text-base font-semibold text-stone-100">{card.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-stone-400">{card.desc}</p>
+                  </div>
+                </FeatureCard>
+              ))}
             </div>
-          </FeatureCard>
-
-          <FeatureCard>
-            <TaskListMockup />
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-stone-100">
-                Pipeline w jednym przepływie
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-stone-400">
-                Scrapuj, deduplikuj, wzbogacaj i wysyłaj do pipeline w jednym
-                zautomatyzowanym przepływie. Bez przełączania zakładek.
-              </p>
-            </div>
-          </FeatureCard>
-
-          <FeatureCard>
-            <IntegrationHub />
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-stone-100">
-                Wybierz swój stack
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-stone-400">
-                Połącz z HubSpot, Salesforce, Sheets, Notion lub wysyłaj
-                webhooki. Atlas wpasowuje się w narzędzia, których już używasz.
-              </p>
-            </div>
-          </FeatureCard>
+            {/* Fade right edge to hint scroll */}
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-stone-950 to-transparent" />
+          </div>
         </div>
 
-        {/* Bottom row — 2 columns (wider left) */}
-        <div className="mt-4 grid gap-4 md:grid-cols-[1.6fr_1fr]">
-          <FeatureCard>
-            <UrlInputMockup />
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-stone-100">
-                Scrapuj prostym URL-em
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-stone-400">
-                Wklej dowolną publiczną stronę. Atlas automatycznie wykryje strukturę,
-                wyciągnie kontakty, firmy i własne pola — bez pisania kodu.
-              </p>
-            </div>
-          </FeatureCard>
+        {/* Desktop: bento grid */}
+        <div className="mx-auto hidden max-w-7xl px-6 md:block">
+          {/* Top row — 3 equal columns */}
+          <div className="grid gap-4 md:grid-cols-3">
+            <FeatureCard>
+              <CodeBackground />
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-stone-100">
+                  Odpowiedzialne scrapowanie
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-stone-400">
+                  Atlas domyślnie sprawdza robots.txt, automatycznie ogranicza
+                  liczbę zapytań i daje pełną kontrolę zgodności per domena.
+                </p>
+              </div>
+            </FeatureCard>
 
-          <FeatureCard>
-            <WebhookMockup />
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-stone-100">
-                Webhooki w czasie rzeczywistym
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-stone-400">
-                Wysyłaj zdarzenia przy zmianach etapów, nowych leadach lub ukończonych scrapach.
-                Przekazuj dane tam, gdzie potrzebuje ich Twój stack.
-              </p>
-            </div>
-          </FeatureCard>
+            <FeatureCard>
+              <TaskListMockup />
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-stone-100">
+                  Pipeline w jednym przepływie
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-stone-400">
+                  Scrapuj, deduplikuj, wzbogacaj i wysyłaj do pipeline w jednym
+                  zautomatyzowanym przepływie. Bez przełączania zakładek.
+                </p>
+              </div>
+            </FeatureCard>
+
+            <FeatureCard>
+              <IntegrationHub />
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-stone-100">
+                  Wybierz swój stack
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-stone-400">
+                  Połącz z HubSpot, Salesforce, Sheets, Notion lub wysyłaj
+                  webhooki. Atlas wpasowuje się w narzędzia, których już używasz.
+                </p>
+              </div>
+            </FeatureCard>
+          </div>
+
+          {/* Bottom row — 2 columns (wider left) */}
+          <div className="mt-4 grid gap-4 md:grid-cols-[1.6fr_1fr]">
+            <FeatureCard>
+              <UrlInputMockup />
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-stone-100">
+                  Scrapuj prostym URL-em
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-stone-400">
+                  Wklej dowolną publiczną stronę. Atlas automatycznie wykryje strukturę,
+                  wyciągnie kontakty, firmy i własne pola — bez pisania kodu.
+                </p>
+              </div>
+            </FeatureCard>
+
+            <FeatureCard>
+              <WebhookMockup />
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-stone-100">
+                  Webhooki w czasie rzeczywistym
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-stone-400">
+                  Wysyłaj zdarzenia przy zmianach etapów, nowych leadach lub ukończonych scrapach.
+                  Przekazuj dane tam, gdzie potrzebuje ich Twój stack.
+                </p>
+              </div>
+            </FeatureCard>
+          </div>
         </div>
       </div>
     </section>

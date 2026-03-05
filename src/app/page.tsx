@@ -16,7 +16,10 @@ import {
   Check,
   ChevronRight,
   Circle,
+  Menu,
+  X,
 } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -51,6 +54,13 @@ import { SpiralAnimation } from "@/components/spiral-animation";
 /*  NAVBAR                                                            */
 /* ------------------------------------------------------------------ */
 function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const navLinks = [
+    { label: "Produkt", href: "#product" },
+    { label: "Zastosowania", href: "#use-cases" },
+    { label: "Cennik", href: "#pricing" },
+    { label: "FAQ", href: "#faq" },
+  ];
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-stone-800/60 bg-stone-950/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
@@ -62,12 +72,7 @@ function Navbar() {
             </span>
           </a>
           <div className="hidden items-center gap-6 md:flex">
-            {[
-              { label: "Produkt", href: "#product" },
-              { label: "Zastosowania", href: "#use-cases" },
-              { label: "Cennik", href: "#pricing" },
-              { label: "FAQ", href: "#faq" },
-            ].map((link) => (
+            {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -78,7 +83,7 @@ function Navbar() {
             ))}
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="hidden items-center gap-3 sm:flex">
           <Button variant="ghost" size="sm" className="text-stone-400 hover:text-stone-100">
             Zaloguj się
           </Button>
@@ -86,7 +91,39 @@ function Navbar() {
             Zacznij za darmo
           </Button>
         </div>
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="flex size-9 items-center justify-center rounded-lg text-stone-400 transition-colors hover:text-stone-100 sm:hidden"
+        >
+          {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
       </div>
+      {/* Mobile menu panel */}
+      {mobileOpen && (
+        <div className="border-t border-stone-800/40 bg-stone-950/95 backdrop-blur-xl px-6 pb-6 pt-4 sm:hidden">
+          <div className="flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="text-sm font-medium text-stone-300 transition-colors hover:text-stone-100"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-col gap-3">
+            <Button variant="ghost" size="sm" className="justify-start text-stone-400 hover:text-stone-100">
+              Zaloguj się
+            </Button>
+            <Button size="sm" className="rounded-full border border-stone-600 bg-stone-900 text-stone-100 hover:bg-stone-800">
+              Zacznij za darmo
+            </Button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
@@ -138,10 +175,10 @@ function Hero() {
         <SpiralAnimation />
       </div>
 
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-6 pb-24 pt-24 lg:grid-cols-[1fr_1.4fr] lg:items-start lg:gap-10 lg:pt-32">
+      <div className="relative mx-auto grid max-w-7xl gap-12 px-6 pb-24 pt-20 lg:grid-cols-[1fr_1.4fr] lg:items-start lg:gap-10 lg:pt-32">
         {/* Left */}
-        <div className="flex flex-col items-start">
-          <h1 className="text-5xl font-bold leading-[1.06] tracking-tight text-stone-50 sm:text-6xl lg:text-7xl">
+        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+          <h1 className="text-4xl font-bold leading-[1.06] tracking-tight text-stone-50 sm:text-5xl md:text-6xl lg:text-7xl">
             Zamień stronę
             <br />
             w pipeline.
@@ -150,7 +187,7 @@ function Hero() {
             Od surowych URL-i do zakwalifikowanych deali — Atlas scrapuje uporządkowane leady,
             wzbogaca każdy rekord i wrzuca je do CRM, którego naprawdę chcesz używać.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
             <Button
               size="lg"
               variant="outline"
@@ -166,6 +203,52 @@ function Hero() {
               <ChevronRight className="ml-1 size-4" />
             </Button>
           </div>
+
+          {/* Mobile-only app preview */}
+          <div className="mt-10 block w-full lg:hidden">
+            <div className="overflow-hidden rounded-2xl border border-stone-700/40 bg-stone-900/80 shadow-2xl backdrop-blur-sm">
+              {/* Mini header */}
+              <div className="flex items-center justify-between border-b border-stone-800/40 px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <Globe className="size-4 text-emerald-400" />
+                  <span className="text-xs font-semibold text-stone-200">Offscript Atlas</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-medium text-emerald-400">Live</span>
+                </div>
+              </div>
+              {/* Stats row */}
+              <div className="grid grid-cols-2 gap-3 p-4">
+                <div className="rounded-lg border border-stone-700/40 bg-stone-800/40 p-3">
+                  <p className="text-[10px] text-stone-500">Zescrapowane rekordy</p>
+                  <p className="mt-1 text-xl font-bold text-stone-100">8,412</p>
+                  <p className="mt-0.5 text-[9px] text-emerald-400">+20% ten miesiąc</p>
+                </div>
+                <div className="rounded-lg border border-stone-700/40 bg-stone-800/40 p-3">
+                  <p className="text-[10px] text-stone-500">Aktywne leady</p>
+                  <p className="mt-1 text-xl font-bold text-stone-100">3,847</p>
+                  <p className="mt-0.5 text-[9px] text-emerald-400">+12% ten miesiąc</p>
+                </div>
+              </div>
+              {/* Mini scraping activity */}
+              <div className="space-y-1.5 border-t border-stone-800/40 px-4 pb-4 pt-3">
+                <p className="mb-2 text-[10px] font-medium text-stone-400">Ostatnia aktywność</p>
+                {[
+                  { label: "linkedin.com/in/search", count: "124 rekordy", color: "bg-blue-500" },
+                  { label: "crunchbase.com/startups", count: "89 rekordów", color: "bg-emerald-500" },
+                  { label: "producthunt.com/makers", count: "56 rekordów", color: "bg-amber-500" },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center justify-between rounded-md bg-stone-800/40 px-3 py-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className={`size-1.5 shrink-0 rounded-full ${item.color}`} />
+                      <span className="truncate text-[10px] text-stone-400">{item.label}</span>
+                    </div>
+                    <span className="ml-3 shrink-0 text-[10px] font-medium text-stone-300">{item.count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Right — dashboard mock */}
@@ -176,8 +259,8 @@ function Hero() {
 
       {/* Social proof strip */}
       <div className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-4">
-        <p className="mb-6 text-sm text-stone-500">Zaufały nam zespoły oparte na danych</p>
-        <div className="flex flex-wrap items-center gap-8">
+        <p className="mb-6 text-center text-sm text-stone-500 lg:text-left">Zaufały nam zespoły oparte na danych</p>
+        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 lg:justify-start">
           <LogoCoppervine />
           <LogoBrightOps />
           <LogoFoldstudio />
@@ -245,26 +328,26 @@ function UseCases() {
           </h2>
         </div>
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
           {useCases.map((uc) => (
             <Card
               key={uc.title}
               className="border-stone-800/60 bg-stone-900/40 transition-colors hover:border-emerald-500/20"
             >
-              <CardHeader>
-                <div className="flex size-10 items-center justify-center rounded-lg border border-stone-800 bg-stone-800/50">
-                  <uc.icon className="size-5 text-emerald-400" />
+              <CardHeader className="p-4 sm:p-6">
+                <div className="flex size-9 items-center justify-center rounded-lg border border-stone-800 bg-stone-800/50 sm:size-10">
+                  <uc.icon className="size-4 text-emerald-400 sm:size-5" />
                 </div>
-                <CardTitle className="mt-3 text-base text-stone-100">{uc.title}</CardTitle>
+                <CardTitle className="mt-3 text-sm text-stone-100 sm:text-base">{uc.title}</CardTitle>
               </CardHeader>
-              <CardContent className="pt-0">
-                <p className="mb-3 text-xs font-medium uppercase tracking-wider text-stone-500">
+              <CardContent className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6">
+                <p className="mb-3 text-[10px] font-medium uppercase tracking-wider text-stone-500 sm:text-xs">
                   Typowy przepływ
                 </p>
                 <ul className="space-y-2">
                   {uc.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-2 text-sm text-stone-400">
-                      <ChevronRight className="mt-0.5 size-3.5 shrink-0 text-emerald-500/60" />
+                    <li key={b} className="flex items-start gap-1.5 text-xs text-stone-400 sm:gap-2 sm:text-sm">
+                      <ChevronRight className="mt-0.5 size-3 shrink-0 text-emerald-500/60 sm:size-3.5" />
                       {b}
                     </li>
                   ))}
@@ -345,7 +428,7 @@ const integrations = [
 
 function IntegrationLogo({ name }: { name: string }) {
   return (
-    <div className="flex shrink-0 items-center gap-3 px-8">
+    <div className="flex shrink-0 items-center gap-3 px-4 sm:px-8">
       <div className="flex size-10 items-center justify-center rounded-lg border border-stone-800 bg-stone-900 text-stone-400">
         {integrationLogos[name]}
       </div>
@@ -435,14 +518,14 @@ function TrustSecurity() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-6 lg:grid-cols-4">
           {trustItems.map((t) => (
             <div key={t.title} className="flex flex-col items-start">
-              <div className="flex size-10 items-center justify-center rounded-lg border border-stone-800 bg-stone-900/60">
-                <t.icon className="size-5 text-emerald-400" />
+              <div className="flex size-9 items-center justify-center rounded-lg border border-stone-800 bg-stone-900/60 sm:size-10">
+                <t.icon className="size-4 text-emerald-400 sm:size-5" />
               </div>
-              <h3 className="mt-4 text-sm font-semibold text-stone-100">{t.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-stone-400">{t.desc}</p>
+              <h3 className="mt-3 text-sm font-semibold text-stone-100 sm:mt-4">{t.title}</h3>
+              <p className="mt-2 text-xs leading-relaxed text-stone-400 sm:text-sm">{t.desc}</p>
             </div>
           ))}
         </div>
@@ -653,7 +736,7 @@ function NotionAvatar({ id }: { id: number }) {
 
 function TestimonialCard({ t }: { t: { quote: string; name: string; role: string; avatar: number } }) {
   return (
-    <div className="w-[340px] shrink-0 rounded-xl border border-stone-800/60 bg-stone-900/60 p-6 mx-3">
+    <div className="w-[280px] shrink-0 rounded-xl border border-stone-800/60 bg-stone-900/60 p-5 mx-2 sm:w-[340px] sm:p-6 sm:mx-3">
       {/* Quote mark */}
       <svg width="28" height="20" viewBox="0 0 28 20" className="mb-4 text-stone-400" fill="currentColor">
         <path d="M0 20V8.344C0 2.784 3.36 0 8.4 0v4.2c-2.52 0-4.2 1.26-4.2 4.144h4.2V20H0zm15.6 0V8.344C15.6 2.784 18.96 0 24 0v4.2c-2.52 0-4.2 1.26-4.2 4.144H24V20H15.6z"/>
@@ -683,7 +766,9 @@ function Testimonials() {
       </div>
 
       {/* Row 1 — scrolls left */}
-      <div className="mt-16 relative">
+      <div className="mt-16 relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-stone-950 to-transparent sm:w-24" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-stone-950 to-transparent sm:w-24" />
         <div
           className="flex"
           style={{ animation: "marquee 40s linear infinite" }}
@@ -695,7 +780,9 @@ function Testimonials() {
       </div>
 
       {/* Row 2 — scrolls right */}
-      <div className="mt-6 relative">
+      <div className="mt-4 relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-stone-950 to-transparent sm:w-24" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-stone-950 to-transparent sm:w-24" />
         <div
           className="flex"
           style={{ animation: "marquee-reverse 45s linear infinite" }}
@@ -777,7 +864,7 @@ function Pricing() {
                 key={plan.name}
                 className={`flex flex-col rounded-2xl p-8 ${
                   isLight
-                    ? "bg-stone-100 text-stone-900 shadow-2xl md:-my-4 md:py-12"
+                    ? "order-first bg-stone-100 text-stone-900 shadow-2xl ring-2 ring-emerald-500/20 md:order-none md:ring-0 md:-my-4 md:py-12"
                     : "border border-stone-800/60 bg-stone-900/50 text-stone-100"
                 }`}
               >
@@ -967,7 +1054,7 @@ function Footer() {
   return (
     <footer className="bg-stone-950">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-12 md:grid-cols-5">
+        <div className="grid gap-10 md:grid-cols-5">
           <div className="md:col-span-2">
             <a href="#" className="flex items-center gap-2">
               <Globe className="size-5 text-emerald-400" />
@@ -993,8 +1080,9 @@ function Footer() {
             </div>
           </div>
 
+          <div className="grid grid-cols-3 gap-6 md:col-span-3 md:grid-cols-3">
           {Object.entries(footerLinks).map(([heading, links]) => (
-            <div key={heading}>
+            <div key={heading} className="min-w-0">
               <p className="text-xs font-semibold uppercase tracking-wider text-stone-500">
                 {heading}
               </p>
@@ -1012,6 +1100,7 @@ function Footer() {
               </ul>
             </div>
           ))}
+          </div>
         </div>
 
         <Separator className="my-10 bg-stone-800/60" />
