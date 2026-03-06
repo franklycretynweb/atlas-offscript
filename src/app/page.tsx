@@ -15,7 +15,6 @@ import {
   BarChart3,
   Check,
   ChevronRight,
-  Circle,
   Menu,
   X,
 } from "lucide-react";
@@ -46,9 +45,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { HeroDashboard } from "@/components/hero-dashboard";
-import { Gallery6 } from "@/components/gallery6";
 import { FeaturesBento } from "@/components/features-bento";
-import { SpiralAnimation } from "@/components/spiral-animation";
 
 /* ------------------------------------------------------------------ */
 /*  NAVBAR                                                            */
@@ -131,35 +128,85 @@ function Navbar() {
 /* ------------------------------------------------------------------ */
 /*  LOGO ICONS (fake company logos for social proof strip)             */
 /* ------------------------------------------------------------------ */
-function LogoCoppervine() {
+const socialProofLogos = [
+  {
+    name: "Coppervine",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+        <path d="M8 1L14.5 4.75v6.5L8 15 1.5 11.25v-6.5z" stroke="white" strokeWidth="1.4"/>
+      </svg>
+    ),
+  },
+  {
+    name: "BrightOps",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+        <path d="M8 1v14M1 8h14M3.1 3.1l9.8 9.8M12.9 3.1 3.1 12.9" stroke="white" strokeWidth="1.4" strokeLinecap="round"/>
+      </svg>
+    ),
+    nameClass: "font-bold tracking-widest text-xs uppercase",
+  },
+  {
+    name: "Foldstudio",
+    icon: (
+      <svg width="13" height="16" viewBox="0 0 13 16" fill="none" aria-hidden>
+        <path d="M1 1h8l3 3v11H1V1z" stroke="white" strokeWidth="1.4" strokeLinejoin="round"/>
+        <path d="M9 1v3h3" stroke="white" strokeWidth="1.4" strokeLinecap="round"/>
+      </svg>
+    ),
+    nameClass: "italic tracking-tight",
+  },
+  {
+    name: "Talentdrift",
+    icon: (
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none" aria-hidden>
+        <path d="M1 2h16M1 6h11M1 10h13" stroke="white" strokeWidth="1.4" strokeLinecap="round"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Arcline",
+    icon: (
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none" aria-hidden>
+        <path d="M1 11C3 4 6 1 9 1s6 3 8 10" stroke="white" strokeWidth="1.4" strokeLinecap="round" fill="none"/>
+      </svg>
+    ),
+    nameClass: "uppercase tracking-[0.12em] text-xs font-semibold",
+  },
+  {
+    name: "kessel.io",
+    icon: null,
+    nameClass: "font-light tracking-tight text-[15px]",
+  },
+  {
+    name: "Meridian",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+        <circle cx="8" cy="8" r="6.5" stroke="white" strokeWidth="1.3"/>
+        <ellipse cx="8" cy="8" rx="2.8" ry="6.5" stroke="white" strokeWidth="1"/>
+        <line x1="1.5" y1="8" x2="14.5" y2="8" stroke="white" strokeWidth="1"/>
+      </svg>
+    ),
+    nameClass: "uppercase tracking-[0.1em] text-xs",
+  },
+  {
+    name: "Stackwise",
+    icon: (
+      <svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden>
+        <rect x="0" y="0" width="18" height="3.5" rx="1.75" fill="white"/>
+        <rect x="0" y="5.25" width="13" height="3.5" rx="1.75" fill="white" fillOpacity="0.65"/>
+        <rect x="0" y="10.5" width="8" height="3.5" rx="1.75" fill="white" fillOpacity="0.35"/>
+      </svg>
+    ),
+    nameClass: "font-medium",
+  },
+];
+
+function BrandLogo({ name, icon, nameClass = "" }: { name: string; icon: React.ReactNode; nameClass?: string }) {
   return (
-    <div className="flex items-center gap-2 text-stone-500">
-      <Circle className="size-4 fill-stone-500 text-stone-500" />
-      <span className="text-sm font-medium">Coppervine</span>
-    </div>
-  );
-}
-function LogoBrightOps() {
-  return (
-    <div className="flex items-center gap-2 text-stone-500">
-      <Sparkles className="size-4" />
-      <span className="text-sm font-medium">BrightOps</span>
-    </div>
-  );
-}
-function LogoFoldstudio() {
-  return (
-    <div className="flex items-center gap-2 text-stone-500">
-      <Circle className="size-4 fill-stone-500 text-stone-500" />
-      <span className="text-sm font-medium">Foldstudio</span>
-    </div>
-  );
-}
-function LogoTalentdrift() {
-  return (
-    <div className="flex items-center gap-2 text-stone-500">
-      <Sparkles className="size-4" />
-      <span className="text-sm font-medium">Talentdrift</span>
+    <div className="flex items-center gap-2.5">
+      {icon}
+      <span className={`text-sm text-white ${nameClass}`}>{name}</span>
     </div>
   );
 }
@@ -170,11 +217,6 @@ function LogoTalentdrift() {
 function Hero() {
   return (
     <section className="relative border-b border-stone-800/40 overflow-hidden">
-      {/* Spiral animation background */}
-      <div className="pointer-events-none absolute inset-0 opacity-60">
-        <SpiralAnimation />
-      </div>
-
       <div className="relative mx-auto grid max-w-7xl gap-12 px-6 pb-24 pt-20 lg:grid-cols-[1fr_1.4fr] lg:items-start lg:gap-10 lg:pt-32">
         {/* Left */}
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
@@ -258,13 +300,18 @@ function Hero() {
       </div>
 
       {/* Social proof strip */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-4">
-        <p className="mb-6 text-center text-sm text-stone-500 lg:text-left">Zaufały nam zespoły oparte na danych</p>
-        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 lg:justify-start">
-          <LogoCoppervine />
-          <LogoBrightOps />
-          <LogoFoldstudio />
-          <LogoTalentdrift />
+      <div className="relative z-10 border-t border-stone-800/40">
+        <div className="mx-auto max-w-7xl px-6 py-10">
+          <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.18em] text-stone-600">
+            Zaufały nam zespoły oparte na danych
+          </p>
+          <div className="grid grid-cols-2 gap-x-10 gap-y-7 opacity-50 sm:grid-cols-4">
+            {socialProofLogos.map((logo) => (
+              <div key={logo.name} className="flex justify-center">
+                <BrandLogo name={logo.name} icon={logo.icon} nameClass={logo.nameClass} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -1126,7 +1173,6 @@ export default function Home() {
     <div className="min-h-screen bg-stone-950 text-stone-100">
       <Navbar />
       <Hero />
-      <Gallery6 />
       <FeaturesBento />
       <UseCases />
       <Integrations />
